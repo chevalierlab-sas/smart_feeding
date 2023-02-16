@@ -6,3 +6,4 @@ Color kBackgroundColor = const Color(0xffF9F9F9);
 Color kWhiteColor = const Color(0xffFFFFFF);
 Color kBlackColor = const Color(0xff000000);
 Color kGreyColor = const Color(0xff828282);
+Color kGreenColor = const Color(0xff6BCB77);
