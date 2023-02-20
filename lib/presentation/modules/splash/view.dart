@@ -23,7 +23,9 @@ class _SplashPageState extends State<SplashPage> {
     super.initState();
 
     Timer(const Duration(seconds: 2), () {
-      Get.toNamed('/onboarding');
+      Get.offNamed('/login', arguments: [
+        '1'
+      ]);
     });
   }
 

@@ -3,31 +3,39 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smart_feeding/presentation/widget/custom_button.dart';
 import 'package:smart_feeding/presentation/widget/custom_form_field.dart';
 import 'package:smart_feeding/utils/res/res.dart';
+import 'package:get/get.dart';
+import 'package:equatable/equatable.dart';
 
-import 'login_cubit.dart';
-import 'login_state.dart';
+import '../cubit/cubit.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (BuildContext context) => LoginCubit(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => VisibilityPasswordCubit(),
+        ),
+        BlocProvider(
+          create: (context) => FormValueCubit(),
+        ),
+      ],
       child: Builder(builder: (context) => _buildPage(context)),
     );
   }
 
   Widget _buildPage(BuildContext context) {
-    final cubit = BlocProvider.of<LoginCubit>(context);
-
     return Scaffold(
       backgroundColor: kWhiteColor,
-      body: _screen(),
+      body: _screen(context),
     );
   }
 
-  _screen() {
+  _screen(BuildContext context) {
+    final isVisible = context.watch<VisibilityPasswordCubit>().state;
+
     return CustomScrollView(
       slivers: [
         SliverAppBar(
@@ -83,6 +91,7 @@ class LoginPage extends StatelessWidget {
             ),
           ),
         ),
+
         const SliverPadding(
           padding: EdgeInsets.symmetric(
             vertical: 10,
@@ -92,25 +101,73 @@ class LoginPage extends StatelessWidget {
             child: CustomFormField(title: 'Email'),
           ),
         ),
-        const SliverPadding(
-          padding: EdgeInsets.symmetric(
+        SliverPadding(
+          padding: const EdgeInsets.symmetric(
             vertical: 10,
             horizontal: 24,
           ),
           sliver: SliverToBoxAdapter(
-            child: CustomFormField(title: 'Password'),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Password',
+                  style: blackTextStyle.copyWith(fontWeight: bold, fontSize: 16),
+                ),
+                const SizedBox(
+                  height: 8,
+                ),
+                TextFormField(
+                  initialValue:context.read<FormValueCubit>().state.password,
+                  obscureText: !isVisible,
+                  decoration: InputDecoration(
+                    hintText: 'Password',
+                    focusColor: kGreenColor,
+                    fillColor: kGreenColor,
+                    suffixIcon: InkWell(
+                      onTap: () {
+                        context.read<VisibilityPasswordCubit>().toggle();
+                      },
+                      focusColor: kGreenColor,
+                      child: Icon(
+                        !isVisible
+                            ? Icons.visibility_off_outlined
+                            : Icons.visibility_outlined,
+                        color: !isVisible ? kGreenColor : kGreyColor,
+                      ),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: kGreenColor, width: 2.0),
+                      borderRadius: BorderRadius.circular(14.0),
+                    ),
+                    border: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: kGreyColor,
+                        width: 2.0,
+                      ),
+                      borderRadius: BorderRadius.circular(14),
+                    ),
+                    contentPadding: const EdgeInsets.all(20),
+                  ),
+                ),
+              ],
+            )
           ),
         ),
-        const SliverPadding(
-          padding: EdgeInsets.symmetric(
+        SliverPadding(
+          padding: const EdgeInsets.symmetric(
             vertical: 24,
             horizontal: 24,
           ),
           sliver: SliverToBoxAdapter(
-            child: CustomButton(title: 'Masuk'),
+            child: CustomButton(
+              title: 'Masuk',
+              onPressed: () {
+                Get.toNamed('/register');
+              },
+            ),
           ),
         ),
-
         SliverPadding(
           padding: const EdgeInsets.symmetric(
             vertical: 8,
@@ -127,7 +184,7 @@ class LoginPage extends StatelessWidget {
                     color: kGreyColor,
                   ),
                   Text(
-                    'masuk dengan',
+                    'Masuk dengan',
                     style: greyTextStyle.copyWith(
                       fontSize: 14,
                       fontWeight: bold,
@@ -140,10 +197,10 @@ class LoginPage extends StatelessWidget {
                   ),
                 ],
               ),
-            )
+            ),
           ),
         ),
-         SliverPadding(
+        SliverPadding(
           padding: const EdgeInsets.symmetric(
             vertical: 24,
             horizontal: 24,
@@ -159,7 +216,7 @@ class LoginPage extends StatelessWidget {
                   height: 24.0,
                 ),
                 label: Text(
-                  'Sign in with Google',
+                  'Masuk dengan Google',
                   style: blackTextStyle.copyWith(
                     fontSize: 20,
                     fontWeight: bold,
@@ -175,7 +232,7 @@ class LoginPage extends StatelessWidget {
                   ),
                 ),
               ),
-            )
+            ),
           ),
         ),
       ],

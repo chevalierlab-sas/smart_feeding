@@ -20,20 +20,20 @@ class CustomButton extends StatelessWidget {
     return SizedBox(
       width: width,
       height: height,
-      child: TextButton(
+      child: ElevatedButton(
         onPressed: onPressed,
-        style: TextButton.styleFrom(
+        style: ElevatedButton.styleFrom(
           backgroundColor: kGreenColor,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
           ),
+          textStyle: const TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+          ),
         ),
         child: Text(
           title,
-          style: whiteTextStyle.copyWith(
-            fontSize: 20,
-            fontWeight: bold,
-          ),
         ),
       ),
     );
