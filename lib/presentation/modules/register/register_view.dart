@@ -4,22 +4,21 @@ import 'package:smart_feeding/presentation/widget/custom_button.dart';
 import 'package:smart_feeding/presentation/widget/custom_form_field.dart';
 import 'package:smart_feeding/utils/res/res.dart';
 
-import 'login_cubit.dart';
-import 'login_state.dart';
+import 'register_cubit.dart';
+import 'register_state.dart';
+import 'package:get/get.dart';
 
-class LoginPage extends StatelessWidget {
-  const LoginPage({super.key});
-
+class RegisterPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (BuildContext context) => LoginCubit(),
+      create: (BuildContext context) => RegisterCubit(),
       child: Builder(builder: (context) => _buildPage(context)),
     );
   }
 
   Widget _buildPage(BuildContext context) {
-    final cubit = BlocProvider.of<LoginCubit>(context);
+    final cubit = BlocProvider.of<RegisterCubit>(context);
 
     return Scaffold(
       backgroundColor: kWhiteColor,
@@ -36,6 +35,7 @@ class LoginPage extends StatelessWidget {
           floating: false,
           toolbarHeight: 120.0,
           expandedHeight: 70.0,
+          automaticallyImplyLeading: false,
           backgroundColor: kWhiteColor,
           title: Row(
             children: [
@@ -50,7 +50,7 @@ class LoginPage extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Masukkan sekarang',
+                      'Buat Akunmu',
                       style: blackTextStyle.copyWith(
                         fontSize: 28,
                         fontWeight: extraBold,
@@ -60,7 +60,7 @@ class LoginPage extends StatelessWidget {
                       height: 5,
                     ),
                     Text(
-                      'Silakan masukkan detail di bawah \nuntuk melanjutkan',
+                      'Create your account and start your \njurney to become an modern breeders.',
                       style: greyTextStyle.copyWith(
                         fontSize: 18,
                         fontWeight: regular,
@@ -74,13 +74,8 @@ class LoginPage extends StatelessWidget {
         ),
         SliverToBoxAdapter(
           child: Container(
-            width: 250,
-            height: 250,
-            decoration: const BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage('assets/images/img-logo.png'),
-              ),
-            ),
+            width: 100,
+            height: 100,
           ),
         ),
         const SliverPadding(
@@ -98,19 +93,38 @@ class LoginPage extends StatelessWidget {
             horizontal: 24,
           ),
           sliver: SliverToBoxAdapter(
-            child: CustomFormField(title: 'Password'),
+            child: CustomFormField(
+              title: 'Password',
+              isPassword: true,
+            ),
           ),
         ),
         const SliverPadding(
           padding: EdgeInsets.symmetric(
+            vertical: 10,
+            horizontal: 24,
+          ),
+          sliver: SliverToBoxAdapter(
+            child: CustomFormField(
+              title: 'Confirm Password',
+              isPassword: true,
+            ),
+          ),
+        ),
+        SliverPadding(
+          padding: const EdgeInsets.symmetric(
             vertical: 24,
             horizontal: 24,
           ),
           sliver: SliverToBoxAdapter(
-            child: CustomButton(title: 'Masuk'),
+            child: CustomButton(
+              title: 'Buat Akun',
+              onPressed: () {
+                Get.toNamed('/register');
+              },
+            ),
           ),
         ),
-
         SliverPadding(
           padding: const EdgeInsets.symmetric(
             vertical: 8,
@@ -127,7 +141,7 @@ class LoginPage extends StatelessWidget {
                     color: kGreyColor,
                   ),
                   Text(
-                    'masuk dengan',
+                    'Daftar dengan',
                     style: greyTextStyle.copyWith(
                       fontSize: 14,
                       fontWeight: bold,
@@ -140,10 +154,10 @@ class LoginPage extends StatelessWidget {
                   ),
                 ],
               ),
-            )
+            ),
           ),
         ),
-         SliverPadding(
+        SliverPadding(
           padding: const EdgeInsets.symmetric(
             vertical: 24,
             horizontal: 24,
@@ -159,7 +173,7 @@ class LoginPage extends StatelessWidget {
                   height: 24.0,
                 ),
                 label: Text(
-                  'Sign in with Google',
+                  'Daftar dengan Google',
                   style: blackTextStyle.copyWith(
                     fontSize: 20,
                     fontWeight: bold,
@@ -175,7 +189,7 @@ class LoginPage extends StatelessWidget {
                   ),
                 ),
               ),
-            )
+            ),
           ),
         ),
       ],

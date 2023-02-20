@@ -1,13 +1,14 @@
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
-import 'package:smart_feeding/presentation/pages/login/login_view.dart';
-import 'package:smart_feeding/presentation/pages/onboarding/onboarding_view.dart';
-import 'package:smart_feeding/presentation/pages/splash/view.dart';
+import 'package:smart_feeding/presentation/modules/login/view/login_view.dart';
+import 'package:smart_feeding/presentation/modules/onboarding/onboarding_view.dart';
+import 'package:smart_feeding/presentation/modules/register/register_view.dart';
+import 'package:smart_feeding/presentation/modules/splash/view.dart';
 
 List<GetPage> appRoutes() => [
   GetPage(
     name: '/splash',
-    page: () => SplashPage(),
+    page: () => const SplashPage(),
     transition: Transition.leftToRightWithFade,
     transitionDuration: const Duration(milliseconds: 100),
   ),
@@ -21,7 +22,13 @@ List<GetPage> appRoutes() => [
     name: '/login',
     page: () => const LoginPage(),
     transition: Transition.leftToRightWithFade,
-    transitionDuration: const Duration(milliseconds: 100),
+    transitionDuration: const Duration(milliseconds: 500),
+  ),
+  GetPage(
+    name: '/register',
+    page: () => RegisterPage(),
+    transition: Transition.rightToLeftWithFade,
+    transitionDuration: const Duration(milliseconds: 500),
   ),
 ];
 
